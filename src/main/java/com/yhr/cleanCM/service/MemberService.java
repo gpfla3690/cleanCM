@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
@@ -31,11 +33,11 @@ public class MemberService implements UserDetailsService {
      */
     public void isDuplicateMember(String loginId, String nickname, String email){
 
-        if(memberRepository.existByLoginId(loginId)){
+        if(memberRepository.existsByLoginId(loginId)){
             throw new IllegalStateException("이미 존재하는 아이디 입니다");
-        }else if(memberRepository.existByNickname(nickname)){
+        }else if(memberRepository.existsByNickname(nickname)){
             throw new IllegalStateException("이미 존재하는 아이디 입니다");
-        }else if(memberRepository.existByEmail(email)){
+        }else if(memberRepository.existsByEmail(email)){
             throw new IllegalStateException("이미 존재하는 이메일 입니다.");
         }
     }
@@ -45,6 +47,7 @@ public class MemberService implements UserDetailsService {
      * @param memberSaveForm
      */
 
+    @Transactional
     public void save(MemberSaveForm memberSaveForm) throws IllegalStateException{
 
         isDuplicateMember(
