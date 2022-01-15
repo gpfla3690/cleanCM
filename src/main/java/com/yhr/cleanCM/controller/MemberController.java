@@ -20,7 +20,7 @@ public class MemberController {
     public String showSignup(Model model) {
 
         model.addAttribute("memberSaveForm", new MemberSaveForm());
-        return "usr/member/signup";
+        return "usr/member/join";
 
     }
 
@@ -28,7 +28,7 @@ public class MemberController {
     public String doSignup(@Validated MemberSaveForm memberSaveForm, BindingResult bindingResult, Model model) {
 
         if ( bindingResult.hasErrors() ) {
-            return "usr/member/signup";
+            return "usr/member/join";
         }
 
         try {
