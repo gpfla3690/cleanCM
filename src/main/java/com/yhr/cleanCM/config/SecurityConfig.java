@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests( authorize -> authorize
                         // URL 에 따른 권한 설정
                         .mvcMatchers(
-                                "/members/join"
+                                "/members/join",
+                                "/members/login"
                         )
                         .anonymous()
                         .mvcMatchers(
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .formLogin() // 폼기반 선언
                     .loginPage("/members/login")
-                    .loginProcessingUrl("/doLogin")
+                    .loginProcessingUrl("/members/doLogin")
                     .usernameParameter("loginId")
                     .passwordParameter("loginPw")
                     .defaultSuccessUrl("/")

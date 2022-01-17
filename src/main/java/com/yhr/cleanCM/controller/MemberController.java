@@ -1,5 +1,6 @@
 package com.yhr.cleanCM.controller;
 
+import com.yhr.cleanCM.dto.MemberLoginForm;
 import com.yhr.cleanCM.dto.MemberSaveForm;
 import com.yhr.cleanCM.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members/join")
-    public String showSignup(Model model) {
+    public String showJoin(Model model) {
 
         model.addAttribute("memberSaveForm", new MemberSaveForm());
         return "usr/member/join";
@@ -25,7 +26,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/join")
-    public String doSignup(@Validated MemberSaveForm memberSaveForm, BindingResult bindingResult, Model model) {
+    public String doJoin(@Validated MemberSaveForm memberSaveForm, BindingResult bindingResult, Model model) {
 
         if ( bindingResult.hasErrors() ) {
             return "usr/member/join";
@@ -39,12 +40,20 @@ public class MemberController {
 
             model.addAttribute("err_msg", e.getMessage());
 
-            return "usr/member/signup";
+            return "usr/member/join";
 
         }
 
         return "redirect:/";
 
+    }
+
+    @GetMapping("/members/login")
+    public String showLogin(Model model){
+
+        model.addAttribute("memberLoginForm", new MemberLoginForm());
+
+        return "usr/member/login";
     }
 
 }
