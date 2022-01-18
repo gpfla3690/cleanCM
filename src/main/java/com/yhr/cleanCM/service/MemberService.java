@@ -3,7 +3,7 @@ package com.yhr.cleanCM.service;
 import com.yhr.cleanCM.config.Role;
 import com.yhr.cleanCM.dao.MemberRepository;
 import com.yhr.cleanCM.domain.Member;
-import com.yhr.cleanCM.dto.MemberSaveForm;
+import com.yhr.cleanCM.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -68,5 +70,16 @@ public class MemberService implements UserDetailsService {
         );
 
         memberRepository.save(member);
+    }
+
+    public Member findByLoginId(String loginId) throws IllegalStateException {
+
+        Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
+
+        memberOptional.orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 회원입니다")
+        );
+
+        return memberOptional.get();
     }
 }

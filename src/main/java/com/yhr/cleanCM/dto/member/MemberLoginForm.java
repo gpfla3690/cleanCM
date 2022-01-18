@@ -1,4 +1,4 @@
-package com.yhr.cleanCM.dto;
+package com.yhr.cleanCM.dto.member;
 
 import lombok.Data;
 

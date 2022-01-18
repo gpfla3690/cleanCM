@@ -28,6 +28,9 @@ public class Member implements UserDetails {
     private String nickname;
     private String email;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Article> articles = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private Role authority;
 

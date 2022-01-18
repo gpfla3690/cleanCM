@@ -1,7 +1,7 @@
 package com.yhr.cleanCM.controller;
 
-import com.yhr.cleanCM.dto.MemberLoginForm;
-import com.yhr.cleanCM.dto.MemberSaveForm;
+import com.yhr.cleanCM.dto.member.MemberLoginForm;
+import com.yhr.cleanCM.dto.member.MemberSaveForm;
 import com.yhr.cleanCM.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

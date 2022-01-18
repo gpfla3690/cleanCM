@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+  <div class="container">
+
+    <div class="contents">
+
+      <form action="" th:action="@{~/articles/write}" method="POST">
+
+        <div class="form-item">
+          <span>
+            제목
+          </span>
+          <input name="title" type="text" required>
+        </div>
+
+        <div class="form-item">
+          <span>내용</span>
+          <textarea name="body" id="article-body" cols="30" rows="10"></textarea>
+        </div>
+
+        <div class="form-item">
+          <button>작성</button>
+          <a href="/">
+            <button>취소</button>
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
