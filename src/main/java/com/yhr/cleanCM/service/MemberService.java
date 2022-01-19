@@ -3,6 +3,7 @@ package com.yhr.cleanCM.service;
 import com.yhr.cleanCM.config.Role;
 import com.yhr.cleanCM.dao.MemberRepository;
 import com.yhr.cleanCM.domain.Member;
+import com.yhr.cleanCM.dto.member.MemberModifyForm;
 import com.yhr.cleanCM.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,5 +82,22 @@ public class MemberService implements UserDetailsService {
         );
 
         return memberOptional.get();
+    }
+
+    @Transactional
+    public Long modifyMember(MemberModifyForm memberModifyForm, String loginId) {
+
+        Member findMember = findByLoginId(loginId);
+
+        BCryptPasswordEncoder bCryptPasswordEncoder =  new BCryptPasswordEncoder();
+
+        findMember.modifyMember(
+                bCryptPasswordEncoder.encode(memberModifyForm.getLoginPw()),
+                memberModifyForm.getNickname(),
+                memberModifyForm.getEmail()
+        );
+
+        return findMember.getId();
+
     }
 }
