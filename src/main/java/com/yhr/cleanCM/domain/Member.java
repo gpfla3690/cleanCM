@@ -19,6 +19,7 @@ import java.util.List;
 public class Member implements UserDetails {
 
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
