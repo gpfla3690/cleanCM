@@ -2,6 +2,7 @@ package com.yhr.cleanCM.controller;
 
 import com.yhr.cleanCM.domain.Board;
 import com.yhr.cleanCM.dto.board.BoardDTO;
+import com.yhr.cleanCM.dto.board.BoardModifyForm;
 import com.yhr.cleanCM.dto.board.BoardSaveForm;
 import com.yhr.cleanCM.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/adm")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -24,7 +27,7 @@ public class BoardController {
 
         model.addAttribute("boardSaveForm", new BoardSaveForm());
 
-        return "usr/board/add";
+        return "adm/board/add";
 
     }
 
@@ -44,7 +47,7 @@ public class BoardController {
 
         model.addAttribute("boardList", boardList);
 
-        return "usr/board/list";
+        return "adm/board/list";
 
     }
 
@@ -60,8 +63,29 @@ public class BoardController {
             return "redirect:/";
         }
 
-        return "usr/board/detail";
-
+        return "adm/board/detail";
 
     }
+
+    @GetMapping("/boards/modify")
+    public String showModifyBoard(Model model) {
+
+        model.addAttribute("boardModifyForm", new BoardModifyForm());
+
+        return "adm/board/modify";
+    }
+
+    @PostMapping("/boards/modify")
+    public String doModifyBoard(BoardModifyForm boardModifyForm) {
+
+        try {
+            boardService.modify(boardModifyForm);
+        } catch (Exception e) {
+            return "adm/board/modify";
+        }
+
+        return "redirect:/";
+    }
+
+
 }
