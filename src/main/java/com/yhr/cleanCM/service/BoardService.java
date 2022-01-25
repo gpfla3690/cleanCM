@@ -86,14 +86,19 @@ public class BoardService {
 
     }
 
+    @Transactional
+    public void delete(Long id) {
 
+        Optional<Board> boardOptional = findById(id);
 
+        boardOptional.orElseThrow(
+                () -> new NoSuchElementException("해당 게시판은 존재하지 않습니다.")
+        );
 
+        Board findBoard = boardOptional.get();
 
-
-
-
-
-
+        boardRepository.delete(findBoard);
+    }
 
 }
+
