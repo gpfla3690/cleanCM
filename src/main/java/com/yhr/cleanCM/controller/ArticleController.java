@@ -2,6 +2,7 @@ package com.yhr.cleanCM.controller;
 
 import com.yhr.cleanCM.domain.Article;
 import com.yhr.cleanCM.domain.Member;
+import com.yhr.cleanCM.dto.article.ArticleDTO;
 import com.yhr.cleanCM.dto.article.ArticleModifyForm;
 import com.yhr.cleanCM.dto.article.ArticleSaveForm;
 import com.yhr.cleanCM.service.ArticleService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -85,6 +87,16 @@ public class ArticleController {
         }catch (Exception e){
             return "usr/article/modify";
         }
+    }
+
+    @GetMapping("/articles/")
+    public String showList(Model model) {
+
+        List<ArticleDTO> articleList = articleService.getList();
+
+        model.addAttribute("articleList", articleList);
+
+        return "usr/article/list";
 
     }
 

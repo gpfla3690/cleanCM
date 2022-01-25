@@ -3,12 +3,15 @@ package com.yhr.cleanCM.service;
 import com.yhr.cleanCM.dao.ArticleRepository;
 import com.yhr.cleanCM.domain.Article;
 import com.yhr.cleanCM.domain.Member;
+import com.yhr.cleanCM.dto.article.ArticleDTO;
 import com.yhr.cleanCM.dto.article.ArticleModifyForm;
 import com.yhr.cleanCM.dto.article.ArticleSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -47,7 +50,7 @@ public class ArticleService {
 
         return articleOptional.get();
     }
-    
+
     @Transactional
     public void modifyArticle(ArticleModifyForm articleModifyForm, Long id){
         Article findArticle = getById(id);
@@ -56,5 +59,21 @@ public class ArticleService {
                 articleModifyForm.getTitle(),
                 articleModifyForm.getBody()
         );
+    }
+
+    public List<ArticleDTO> getList() {
+
+        List<Article> articleList = articleRepository.findAll();
+
+        List<ArticleDTO> articleDTOList = new ArrayList<>();
+
+        for (Article article : articleList) {
+
+            ArticleDTO articleDTO = new ArticleDTO(article);
+            articleDTOList.add(articleDTO);
+        }
+
+        return articleDTOList;
+
     }
 }
