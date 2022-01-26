@@ -15,7 +15,7 @@ public class BoardDTO {
     private String name;
     private String detail;
 
-    private List<ArticleListDTO> articleListDTOList;
+    private List<ArticleListDTO> articleListDTO;
 
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
@@ -26,7 +26,7 @@ public class BoardDTO {
         this.id = board.getId();
         this.name = board.getName();
         this.detail = board.getDetail();
-        this.articleListDTOList = articleListDTO;
+        this.articleListDTO = articleListDTO;
         this.regDate = board.getRegDate();
         this.updateDate = board.getUpdateDate();
 
