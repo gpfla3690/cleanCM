@@ -67,19 +67,29 @@ public class BoardController {
 
     }
 
-    @GetMapping("/boards/modify")
-    public String showModifyBoard(Model model) {
-
-        model.addAttribute("boardModifyForm", new BoardModifyForm());
-
-        return "adm/board/modify";
-    }
-
-    @PostMapping("/boards/modify")
-    public String doModifyBoard(BoardModifyForm boardModifyForm) {
+    @GetMapping("/boards/modify/{id}")
+    public String showModifyBoard(@PathVariable(name = "id")Long id, Model model) {
 
         try {
-            boardService.modify(boardModifyForm);
+
+            BoardDTO board = boardService.getBoardDetail(id);
+
+            model.addAttribute("boardModifyForm", new BoardModifyForm(
+                    board.getName(),
+                    board.getDetail()
+            ));
+
+            return "adm/board/modify";
+        }catch (Exception e){
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/boards/modify/{id}")
+    public String doModifyBoard(@PathVariable(name = "id") Long id, BoardModifyForm boardModifyForm) {
+
+        try {
+            boardService.modify(id, boardModifyForm);
         } catch (Exception e) {
             return "adm/board/modify";
         }
