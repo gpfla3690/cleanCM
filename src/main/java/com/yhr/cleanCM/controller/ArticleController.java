@@ -6,6 +6,7 @@ import com.yhr.cleanCM.domain.Member;
 import com.yhr.cleanCM.dto.article.ArticleDTO;
 import com.yhr.cleanCM.dto.article.ArticleModifyForm;
 import com.yhr.cleanCM.dto.article.ArticleSaveForm;
+import com.yhr.cleanCM.dto.board.BoardDTO;
 import com.yhr.cleanCM.service.ArticleService;
 import com.yhr.cleanCM.service.BoardService;
 import com.yhr.cleanCM.service.MemberService;
@@ -29,17 +30,20 @@ public class ArticleController {
     private final MemberService memberService;
     private final BoardService boardService;
 
-    @GetMapping("/articles/write")
-    public String showArticleWrite(Model model) {
+    @GetMapping("/boards/{id}/articles/write")
+    public String showArticleWrite(@PathVariable(name = "id")Long id, Model model) {
 
+        BoardDTO boardDetail = boardService.getBoardDetail(id);
+
+        model.addAttribute("board", boardDetail);
         model.addAttribute("articleSaveForm", new ArticleSaveForm());
 
         return "usr/article/write";
 
     }
 
-    @PostMapping("/articles/write")
-    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal) {
+    @PostMapping("/boards/{id}/articles/write")
+    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal, @PathVariable(name = "id")Long id) {
 
         if (bindingResult.hasErrors()) {
             return "usr/article/write";
@@ -64,7 +68,7 @@ public class ArticleController {
 
         }
 
-        return "redirect:/";
+        return "redirect:/articles";
 
     }
 
@@ -94,7 +98,7 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/articles/")
+    @GetMapping("/articles")
     public String showList(Model model) {
 
         List<ArticleDTO> articleList = articleService.getList();
