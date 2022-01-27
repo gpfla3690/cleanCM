@@ -2,6 +2,7 @@ package com.yhr.cleanCM.service;
 
 import com.yhr.cleanCM.dao.ArticleRepository;
 import com.yhr.cleanCM.domain.Article;
+import com.yhr.cleanCM.domain.Board;
 import com.yhr.cleanCM.domain.Member;
 import com.yhr.cleanCM.dto.article.ArticleDTO;
 import com.yhr.cleanCM.dto.article.ArticleModifyForm;
@@ -23,7 +24,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public void save(ArticleSaveForm articleSaveForm, Member member) {
+    public void save(ArticleSaveForm articleSaveForm, Member member, Board board) {
 
         Article article = Article.createArticle(
                 articleSaveForm.getTitle(),
@@ -31,6 +32,7 @@ public class ArticleService {
         );
 
         article.setMember(member);
+        article.setBoard(board);
         articleRepository.save(article);
 
     }
