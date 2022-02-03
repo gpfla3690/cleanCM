@@ -3,6 +3,7 @@ package com.yhr.cleanCM.service;
 import com.yhr.cleanCM.dao.BoardRepository;
 import com.yhr.cleanCM.domain.Article;
 import com.yhr.cleanCM.domain.Board;
+import com.yhr.cleanCM.domain.Member;
 import com.yhr.cleanCM.dto.article.ArticleListDTO;
 import com.yhr.cleanCM.dto.board.BoardDTO;
 import com.yhr.cleanCM.dto.board.BoardModifyForm;
@@ -24,11 +25,12 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void save(BoardSaveForm boardSaveForm){
+    public void save(BoardSaveForm boardSaveForm, Member member){
 
         Board board = Board.createBoard(
                 boardSaveForm.getName(),
-                boardSaveForm.getDetail()
+                boardSaveForm.getDetail(),
+                member
         );
 
         boardRepository.save(board);
