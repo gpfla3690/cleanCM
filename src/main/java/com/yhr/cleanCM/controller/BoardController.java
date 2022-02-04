@@ -19,14 +19,13 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/adm")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
     private final MemberService memberService;
 
-    @GetMapping("/boards/add")
+    @GetMapping("/adm/boards/add")
     public String showAddBoard(Model model) {
 
         model.addAttribute("boardSaveForm", new BoardSaveForm());
@@ -35,7 +34,7 @@ public class BoardController {
 
     }
 
-    @PostMapping("/boards/add")
+    @PostMapping("/adm/boards/add")
     public String doAddBoard(BoardSaveForm boardSaveForm, Principal principal) {
 
         Member findAdmin = memberService.findByLoginId(principal.getName());
@@ -73,7 +72,7 @@ public class BoardController {
 
     }
 
-    @GetMapping("/boards/modify/{id}")
+    @GetMapping("/adm/boards/modify/{id}")
     public String showModifyBoard(@PathVariable(name = "id")Long id, Model model) {
 
         try {
@@ -92,7 +91,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/boards/modify/{id}")
+    @PostMapping("/adm/boards/modify/{id}")
     public String doModifyBoard(@PathVariable(name = "id") Long id, BoardModifyForm boardModifyForm) {
 
         try {
@@ -104,7 +103,7 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @GetMapping("/boards/delete/{id}")
+    @GetMapping("/adm/boards/delete/{id}")
     public String doDeleteBoard(@PathVariable(name = "id") Long id) {
 
         try {
