@@ -83,9 +83,12 @@ public class ArticleController {
     public String showModify(@PathVariable(name = "id") Long id, Model model){
 
         try {
-            ArticleDTO article = articleService.getArticle(id);
+            ArticleDTO findArticle = articleService.getArticle(id);
 
-            model.addAttribute("article", article);
+            model.addAttribute("articleId", findArticle.getId());
+            model.addAttribute("boardName", findArticle.getBoardName());
+            model.addAttribute("boardId", findArticle.getBoardId());
+            model.addAttribute("articleModifyForm", new ArticleModifyForm(findArticle));
 
             return "usr/article/modify";
         }catch (Exception e){
@@ -94,11 +97,20 @@ public class ArticleController {
     }
 
     @PostMapping("/articles/modify/{id}")
-    public String doModify(@PathVariable(name = "id") Long id, ArticleModifyForm articleModifyForm, Principal principal){
+    public String doModify(@PathVariable(name = "id") Long id, @Validated ArticleModifyForm articleModifyForm, BindingResult bindingResult, Principal principal, Model model){
+
+        ArticleDTO findArticle = articleService.getArticle(id);
+
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("articleId", findArticle.getId());
+            model.addAttribute("boardName", findArticle.getBoardName());
+            model.addAttribute("boardId", findArticle.getBoardId());
+
+            return "usr/article/modify";
+        }
 
         try{
-
-            ArticleDTO findArticle = articleService.getArticle(id);
 
             if(!findArticle.getMemberLoginId().equals(principal.getName())){
                 throw new IllegalStateException("잘못된 요청입니다.");
