@@ -85,7 +85,8 @@ public class BoardController {
 
             BoardDTO board = boardService.getBoardDetail(id);
 
-            model.addAttribute("board", new BoardModifyForm(
+            model.addAttribute("boardId", board.getId());
+            model.addAttribute("boardModifyForm", new BoardModifyForm(
                     board.getId(),
                     board.getName(),
                     board.getDetail()
@@ -98,7 +99,14 @@ public class BoardController {
     }
 
     @PostMapping("/adm/boards/modify/{id}")
-    public String doModifyBoard(@PathVariable(name = "id") Long id, BoardModifyForm boardModifyForm) {
+    public String doModifyBoard(@PathVariable(name = "id") Long id, @Validated BoardModifyForm boardModifyForm, BindingResult bindingResult, Model model) {
+
+        BoardDTO findBoard = boardService.getBoardDetail(id);
+
+        if ( bindingResult.hasErrors()) {
+            model.addAttribute("boardId", findBoard.getId());
+            return "adm/board/modify";
+        }
 
         try {
             boardService.modify(id, boardModifyForm);
@@ -106,7 +114,7 @@ public class BoardController {
             return "adm/board/modify";
         }
 
-        return "redirect:/";
+        return "redirect:/boards";
     }
 
     @GetMapping("/adm/boards/delete/{id}")
