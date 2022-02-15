@@ -19,9 +19,5 @@ public class AdmController {
         return "adm/general/main";
     }
 
-    @GetMapping("/articles")
-    public String showManageArticle(){
-        return "adm/article/main";
-    }
 
 }
