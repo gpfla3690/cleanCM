@@ -121,8 +121,6 @@ public class MemberService implements UserDetailsService {
     }
 
 
-
-
     @Transactional
     public Long modifyMember(MemberModifyForm memberModifyForm, String loginId) {
 
@@ -137,6 +135,12 @@ public class MemberService implements UserDetailsService {
         );
 
         return findMember.getId();
+
+    }
+
+    public boolean isDupleMember(String loginId){
+
+        return memberRepository.existsByLoginId(loginId);
 
     }
 }
