@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,10 +25,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final MemberService memberService;
 
-
-    // 게시판 리스트
     @GetMapping("/boards")
     public String showBoardList(Model model) {
 
@@ -39,8 +37,8 @@ public class BoardController {
 
     }
 
-    @GetMapping("/boards/{id}")  // http://localhost:8085/boards/1?page=1
-    public String showBoardDetail(@PathVariable(name = "id") Long id, Model model, @RequestParam(name="page", defaultValue = "1") int page) {
+    @GetMapping("/boards/{id}") // http://localhost:8085/boards/id?page=1&searchKeyword=제목
+    public String showBoardDetail(@PathVariable(name = "id") Long id, Model model, @RequestParam(name="page", defaultValue = "1") int page, @RequestParam(name = "searchKeyword") String searchKeyword) {
 
         int size = 10;
 
@@ -50,28 +48,44 @@ public class BoardController {
 
             List<ArticleListDTO> articleListDTO = boardDetail.getArticleListDTO();
 
+            List<ArticleListDTO> store = new ArrayList<>();
+
+            for( ArticleListDTO listDTO : articleListDTO ){
+
+                if( listDTO.getTitle().contains(searchKeyword) ){
+                    store.add(listDTO);
+                }
+            }
+
+            if( store.size() != 0 ){
+                articleListDTO = store;
+            }
+
             Collections.reverse(articleListDTO);
-            // 0, 10, 20 ...
+
             int startIndex = (page - 1) * size;
-            // 9, 19, 29 ... -> 15 -> 1.5(총 게시글 개수 / 10(size)) -> 올림
+
             int lastIndex = ((page -1) * size) + 9;
 
             int lastPage = (int)Math.ceil(articleListDTO.size()/(double)size);
 
-            if( page == lastPage ){  // ?page=2 == 2
+            if( page == lastPage ){
 
-                lastIndex = articleListDTO.size(); // 15  [0,1,2,3,4,5,6,7,,,14]
+                lastIndex = articleListDTO.size();
 
-            }else if( page > lastPage ){  // ?page=100 == 2
+            }else if( page > lastPage ){
 
                 return "redirect:/";
 
-            }else{  // ?page=1 == 2
+            }else{
                 lastIndex += 1;
             }
 
-            // 페이지 자르기
-            List<ArticleListDTO> articlePage = articleListDTO.subList(startIndex, lastIndex); // [0, 10] -> 0,1,2,3,4,5,6,7,8,9
+            List<ArticleListDTO> articlePage = articleListDTO.subList(startIndex, lastIndex);
+
+            if( !searchKeyword.equals("") && store.size() == 0 ){
+                articlePage = store;
+            }
 
             model.addAttribute("board", boardDetail);
             model.addAttribute("articles", articlePage);
