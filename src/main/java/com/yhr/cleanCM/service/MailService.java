@@ -16,7 +16,7 @@ public class MailService {
 
     private final MemberService memberService;
     private final JavaMailSender javaMailSender;
-    private static final String FROM_ADDRESS = "gpfla3690@gmail.com";
+    private static final String FROM_ADDRESS = "gpfla6022@gmail.com";
 
     public void sendMail(FindPasswordForm findPasswordForm){
 
