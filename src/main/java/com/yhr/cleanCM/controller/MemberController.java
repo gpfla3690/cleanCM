@@ -7,6 +7,7 @@ import com.yhr.cleanCM.dto.member.MemberModifyForm;
 import com.yhr.cleanCM.dto.member.MemberSaveForm;
 import com.yhr.cleanCM.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,22 @@ public class MemberController {
 
         return  checkStatus;
     }
+
+    @DeleteMapping("/members")
+    @ResponseBody
+    public boolean doDelete(@RequestBody String loginId, Principal principal){
+
+        if( !loginId.equals(principal.getName()) ){
+            return false;
+        }
+
+        SecurityContextHolder.clearContext();
+
+        memberService.deleteMember(loginId);
+
+        return true;
+    }
+
 
 
 
