@@ -29,7 +29,8 @@
                 <div class="form-item mb-4">
                   <input class="border rounded p-1 rounded bg-gray-50" type="password" name="loginPw"  placeholder="비밀번호" autocomplete="off" required>
                 </div>
-                <div class="form-item flex justify-center mt-12">
+
+                <div class="form-item flex justify-center mt-8">
                   <button class="mr-4 border bg-blue-500 p-1 rounded text-white">
                     로그인
                   </button>
@@ -37,6 +38,12 @@
                     <button class="border bg-blue-500 p-1 rounded text-white">취소</button>
                   </a>
                 </div>
+
+                <div class="flex justify-center mt-6 hover:underline">
+                  <a th:href="@{~/members/find/pw}">비밀번호를 잊어버리셨나요?</a>
+                </div>
+
+
               </div>
             </div>
           </form>
