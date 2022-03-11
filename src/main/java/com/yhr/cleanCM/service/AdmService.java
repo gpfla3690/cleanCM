@@ -1,13 +1,11 @@
 package com.yhr.cleanCM.service;
 
 import com.yhr.cleanCM.config.Role;
+import com.yhr.cleanCM.dao.ArticleRepository;
 import com.yhr.cleanCM.dao.BoardRepository;
 import com.yhr.cleanCM.dao.MemberRepository;
 import com.yhr.cleanCM.domain.Board;
-import com.yhr.cleanCM.dto.adm.AdmBoardCountDto;
-import com.yhr.cleanCM.dto.adm.AdmBoardNameDto;
-import com.yhr.cleanCM.dto.adm.BoardStatDto;
-import com.yhr.cleanCM.dto.adm.MemberStatDto;
+import com.yhr.cleanCM.dto.adm.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +20,7 @@ public class AdmService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
+    private final ArticleRepository articleRepository;
 
     public MemberStatDto getMemberStatDto(){
 
@@ -64,5 +63,13 @@ public class AdmService {
     );
 
     }
+
+    public ArticleStatDto getArticleStatDto(){
+
+        return new ArticleStatDto(
+            articleRepository.count()
+        );
+    }
+
 
 }
